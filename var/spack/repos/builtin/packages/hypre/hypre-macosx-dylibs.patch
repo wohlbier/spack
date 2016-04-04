@@ -1,0 +1,634 @@
+diff -aurw hypre-2.10.1/src/FEI_mv/DSuperLU/SRC/Makefile hypre-2.10.1-dylib/src/FEI_mv/DSuperLU/SRC/Makefile
+--- hypre-2.10.1/src/FEI_mv/DSuperLU/SRC/Makefile	2015-09-11 10:57:55.000000000 -0700
++++ hypre-2.10.1-dylib/src/FEI_mv/DSuperLU/SRC/Makefile	2016-04-01 15:59:12.000000000 -0700
+@@ -153,9 +153,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_dsuperlu.so: ${OBJS}
++libHYPRE_dsuperlu${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o $@ ${OBJS}
++	${BUILD_CC_SHARED} -o $@ ${OBJS} ${SHARED_OPTIONS}
+ 
+ #######################################
+ 
+@@ -187,5 +187,3 @@
+ 
+ #clean:	
+ #	rm -f *.o $(DSUPERLULIB)
+-
+-
+Only in hypre-2.10.1-dylib/src/FEI_mv/DSuperLU/SRC: Makefile~
+diff -aurw hypre-2.10.1/src/FEI_mv/SuperLU/SRC/Makefile hypre-2.10.1-dylib/src/FEI_mv/SuperLU/SRC/Makefile
+--- hypre-2.10.1/src/FEI_mv/SuperLU/SRC/Makefile	2015-09-11 10:57:55.000000000 -0700
++++ hypre-2.10.1-dylib/src/FEI_mv/SuperLU/SRC/Makefile	2016-04-01 16:06:27.000000000 -0700
+@@ -170,9 +170,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_superlu.so: ${OBJS}
++libHYPRE_superlu${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o $@ ${OBJS}
++	${BUILD_CC_SHARED} -o $@ ${OBJS} ${SHARED_OPTIONS}
+ 
+ ${OBJS}: ${HEADERS}
+ 
+Only in hypre-2.10.1-dylib/src/FEI_mv/SuperLU/SRC: Makefile~
+diff -aurw hypre-2.10.1/src/FEI_mv/fei-hypre/Makefile hypre-2.10.1-dylib/src/FEI_mv/fei-hypre/Makefile
+--- hypre-2.10.1/src/FEI_mv/fei-hypre/Makefile	2015-09-11 10:57:55.000000000 -0700
++++ hypre-2.10.1-dylib/src/FEI_mv/fei-hypre/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -156,7 +156,7 @@
+ OBJSCXX = ${FILESCXX:.cxx=.o}
+ OBJS = ${OBJSC} ${OBJSCXX}
+ 
+-SONAME = libHYPRE_FEI-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_FEI-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -208,9 +208,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_FEI.so: ${OBJS}
++libHYPRE_FEI${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/FEI_mv/femli/Makefile hypre-2.10.1-dylib/src/FEI_mv/femli/Makefile
+--- hypre-2.10.1/src/FEI_mv/femli/Makefile	2015-09-11 10:57:55.000000000 -0700
++++ hypre-2.10.1-dylib/src/FEI_mv/femli/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -126,7 +126,7 @@
+ OBJSCXX = ${OBJSC:.cxx=.o}
+ OBJS = ${OBJSCXX:.f=.o}
+ 
+-SONAME = libHYPRE_mli-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_mli-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -154,9 +154,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_mli.so: ${OBJS}
++libHYPRE_mli${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/IJ_mv/Makefile hypre-2.10.1-dylib/src/IJ_mv/Makefile
+--- hypre-2.10.1/src/IJ_mv/Makefile	2015-09-11 10:57:55.000000000 -0700
++++ hypre-2.10.1-dylib/src/IJ_mv/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -53,7 +53,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_IJ_mv-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_IJ_mv-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -84,9 +84,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_IJ_mv.so: ${OBJS}
++libHYPRE_IJ_mv${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/config/configure.in hypre-2.10.1-dylib/src/config/configure.in
+--- hypre-2.10.1/src/config/configure.in	2015-09-11 10:57:57.000000000 -0700
++++ hypre-2.10.1-dylib/src/config/configure.in	2016-04-01 15:49:04.000000000 -0700
+@@ -1037,15 +1037,28 @@
+ dnl *********************************************************************
+ if test "$hypre_using_shared" = "yes"
+ then
+-   HYPRE_LIBSUFFIX=".so"
+    case $hypre_platform in
+       AIX* | aix* | Aix*) SHARED_COMPILE_FLAG="-qmkshrobj"
+                           SHARED_BUILD_FLAG="-G"
++                          SHARED_SET_SONAME="-Wl,-soname,"
++                          SHARED_OPTIONS="-Wl,-z,defs"
++                          HYPRE_LIBSUFFIX=".so"
+                           LINK_F77="${F77} -brtl"
+                           LINK_CC="${CC} -brtl"
+-                          LINK_CXX="${CXX} -brtl" ;;
++                          LINK_CXX="${CXX} -brtl"
++                          ;;
++                  Darwin) SHARED_COMPILE_FLAG="-fPIC"
++                          SHARED_BUILD_FLAG="-dynamiclib"
++                          SHARED_SET_SONAME="-Wl,-install_name,"
++                          SHARED_OPTIONS="-Wl,-undefined,suppress -flat_namespace"
++                          HYPRE_LIBSUFFIX=".dylib"
++                          ;;
+                        *) SHARED_COMPILE_FLAG="-fPIC"
+-                          SHARED_BUILD_FLAG="-shared" ;;
++                          SHARED_BUILD_FLAG="-shared"
++                          SHARED_SET_SONAME="-Wl,-soname,"
++                          SHARED_OPTIONS="-Wl,-z,defs"
++                          HYPRE_LIBSUFFIX=".so"
++                          ;;
+    esac
+    FFLAGS="${FFLAGS} ${SHARED_COMPILE_FLAG}"
+    CFLAGS="${CFLAGS} ${SHARED_COMPILE_FLAG}"
+@@ -1058,8 +1071,6 @@
+       BUILD_CC_SHARED="${CC} ${SHARED_BUILD_FLAG}"
+    fi
+    BUILD_CXX_SHARED="${CXX} ${SHARED_BUILD_FLAG}"
+-   SHARED_SET_SONAME="-Wl,-soname,"
+-   SHARED_OPTIONS="-Wl,-z,defs"
+ fi
+ 
+ BUILD_PYTHON=0
+Only in hypre-2.10.1-dylib/src/config: configure.in~
+diff -aurw hypre-2.10.1/src/configure hypre-2.10.1-dylib/src/configure
+--- hypre-2.10.1/src/configure	2015-09-11 10:57:57.000000000 -0700
++++ hypre-2.10.1-dylib/src/configure	2016-04-01 15:48:33.000000000 -0700
+@@ -7778,15 +7778,28 @@
+ 
+ if test "$hypre_using_shared" = "yes"
+ then
+-   HYPRE_LIBSUFFIX=".so"
+    case $hypre_platform in
+       AIX* | aix* | Aix*) SHARED_COMPILE_FLAG="-qmkshrobj"
+                           SHARED_BUILD_FLAG="-G"
++                          SHARED_SET_SONAME="-Wl,-soname,"
++                          SHARED_OPTIONS="-Wl,-z,defs"
++                          HYPRE_LIBSUFFIX=".so"
+                           LINK_F77="${F77} -brtl"
+                           LINK_CC="${CC} -brtl"
+-                          LINK_CXX="${CXX} -brtl" ;;
++                          LINK_CXX="${CXX} -brtl"
++                          ;;
++                  Darwin) SHARED_COMPILE_FLAG="-fPIC"
++                          SHARED_BUILD_FLAG="-dynamiclib"
++                          SHARED_SET_SONAME="-Wl,-install_name,"
++                          SHARED_OPTIONS="-Wl,-undefined,suppress -flat_namespace"
++                          HYPRE_LIBSUFFIX=".dylib"
++                          ;;
+                        *) SHARED_COMPILE_FLAG="-fPIC"
+-                          SHARED_BUILD_FLAG="-shared" ;;
++                          SHARED_BUILD_FLAG="-shared"
++                          SHARED_SET_SONAME="-Wl,-soname,"
++                          SHARED_OPTIONS="-Wl,-z,defs"
++                          HYPRE_LIBSUFFIX=".so"
++                          ;;
+    esac
+    FFLAGS="${FFLAGS} ${SHARED_COMPILE_FLAG}"
+    CFLAGS="${CFLAGS} ${SHARED_COMPILE_FLAG}"
+@@ -7799,8 +7812,6 @@
+       BUILD_CC_SHARED="${CC} ${SHARED_BUILD_FLAG}"
+    fi
+    BUILD_CXX_SHARED="${CXX} ${SHARED_BUILD_FLAG}"
+-   SHARED_SET_SONAME="-Wl,-soname,"
+-   SHARED_OPTIONS="-Wl,-z,defs"
+ fi
+ 
+ BUILD_PYTHON=0
+@@ -9532,4 +9543,3 @@
+ mv HYPRE_config.h HYPRE_config.h.tmp
+ sed 's/F77_FUNC/HYPRE_F77_FUNC/g' < HYPRE_config.h.tmp > HYPRE_config.h
+ rm -f HYPRE_config.h.tmp
+-
+Only in hypre-2.10.1-dylib/src: configure~
+diff -aurw hypre-2.10.1/src/distributed_ls/Euclid/Makefile hypre-2.10.1-dylib/src/distributed_ls/Euclid/Makefile
+--- hypre-2.10.1/src/distributed_ls/Euclid/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/distributed_ls/Euclid/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -87,7 +87,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_Euclid-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_Euclid-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -114,9 +114,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_Euclid.so: ${OBJS}
++libHYPRE_Euclid${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/distributed_ls/ParaSails/Makefile hypre-2.10.1-dylib/src/distributed_ls/ParaSails/Makefile
+--- hypre-2.10.1/src/distributed_ls/ParaSails/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/distributed_ls/ParaSails/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -57,7 +57,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_ParaSails-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_ParaSails-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -84,9 +84,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_ParaSails.so: ${OBJS}
++libHYPRE_ParaSails${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/distributed_ls/pilut/Makefile hypre-2.10.1-dylib/src/distributed_ls/pilut/Makefile
+--- hypre-2.10.1/src/distributed_ls/pilut/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/distributed_ls/pilut/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -49,7 +49,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_DistributedMatrixPilutSolver-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_DistributedMatrixPilutSolver-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -78,9 +78,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_DistributedMatrixPilutSolver.so: ${OBJS}
++libHYPRE_DistributedMatrixPilutSolver${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/distributed_matrix/Makefile hypre-2.10.1-dylib/src/distributed_matrix/Makefile
+--- hypre-2.10.1/src/distributed_matrix/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/distributed_matrix/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -40,7 +40,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_DistributedMatrix-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_DistributedMatrix-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -69,9 +69,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_DistributedMatrix.so: ${OBJS}
++libHYPRE_DistributedMatrix${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/krylov/Makefile hypre-2.10.1-dylib/src/krylov/Makefile
+--- hypre-2.10.1/src/krylov/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/krylov/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -53,7 +53,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_krylov-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_krylov-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -86,9 +86,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_krylov.so: ${OBJS}
++libHYPRE_krylov${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/lib/Makefile hypre-2.10.1-dylib/src/lib/Makefile
+--- hypre-2.10.1/src/lib/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/lib/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -59,7 +59,7 @@
+ $(BLASFILES)\
+ $(LAPACKFILES)
+ 
+-SONAME = libHYPRE-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ SOLIBS = ${MPILIBDIRS} ${MPILIBS} ${LAPACKLIBDIRS} ${LAPACKLIBS}\
+  ${BLASLIBDIRS} ${BLASLIBS} ${LIBS} ${FLIBS}
+ 
+@@ -105,7 +105,7 @@
+ 	${AR} $@ $(UTILITIESFILES) $(BLASFILES) $(LAPACKFILES)
+ 	${RANLIB} $@
+ 
+-libHYPRE.so: ${FILES_HYPRE}
++libHYPRE${HYPRE_LIB_SUFFIX}: ${FILES_HYPRE}
+ 	@echo  "Building $@ ... "
+ 	${BUILD_CC_SHARED} -o ${SONAME} ${FILES_HYPRE} ${SOLIBS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+diff -aurw hypre-2.10.1/src/matrix_matrix/Makefile hypre-2.10.1-dylib/src/matrix_matrix/Makefile
+--- hypre-2.10.1/src/matrix_matrix/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/matrix_matrix/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -35,7 +35,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_MatrixMatrix-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_MatrixMatrix-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -64,9 +64,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_MatrixMatrix.so: ${OBJS}
++libHYPRE_MatrixMatrix${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/multivector/Makefile hypre-2.10.1-dylib/src/multivector/Makefile
+--- hypre-2.10.1/src/multivector/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/multivector/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -31,7 +31,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_multivector-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_multivector-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -60,9 +60,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_multivector.so: ${OBJS}
++libHYPRE_multivector${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/parcsr_block_mv/Makefile hypre-2.10.1-dylib/src/parcsr_block_mv/Makefile
+--- hypre-2.10.1/src/parcsr_block_mv/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/parcsr_block_mv/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -59,7 +59,7 @@
+ OBJS = ${FILES:.c=.o}
+ DRIVER_OBJS = ${DRIVER_FILES:.c=.o}
+ 
+-SONAME = libHYPRE_parcsr_block_mv-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_parcsr_block_mv-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -114,9 +114,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_parcsr_block_mv.so: ${OBJS}
++libHYPRE_parcsr_block_mv${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/parcsr_ls/Makefile hypre-2.10.1-dylib/src/parcsr_ls/Makefile
+--- hypre-2.10.1/src/parcsr_ls/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/parcsr_ls/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -126,7 +126,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_parcsr_ls-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_parcsr_ls-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -158,9 +158,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_parcsr_ls.so: ${OBJS}
++libHYPRE_parcsr_ls${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/parcsr_mv/Makefile hypre-2.10.1-dylib/src/parcsr_mv/Makefile
+--- hypre-2.10.1/src/parcsr_mv/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/parcsr_mv/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -71,7 +71,7 @@
+ OBJS = ${FILES:.c=.o}
+ DRIVER_OBJS = ${DRIVER_FILES:.c=.o}
+ 
+-SONAME = libHYPRE_parcsr_mv-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_parcsr_mv-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -127,9 +127,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_parcsr_mv.so: ${OBJS}
++libHYPRE_parcsr_mv${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/seq_ls/pamg/Makefile hypre-2.10.1-dylib/src/seq_ls/pamg/Makefile
+--- hypre-2.10.1/src/seq_ls/pamg/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/seq_ls/pamg/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -85,7 +85,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_amg_ls-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_amg_ls-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -116,9 +116,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_amg_ls.so: ${OBJS}
++libHYPRE_amg_ls${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/seq_mv/Makefile hypre-2.10.1-dylib/src/seq_mv/Makefile
+--- hypre-2.10.1/src/seq_mv/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/seq_mv/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -45,7 +45,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_seq_mv-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_seq_mv-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -76,9 +76,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_seq_mv.so: ${OBJS}
++libHYPRE_seq_mv${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/sstruct_ls/Makefile hypre-2.10.1-dylib/src/sstruct_ls/Makefile
+--- hypre-2.10.1/src/sstruct_ls/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/sstruct_ls/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -109,7 +109,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_sstruct_ls-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_sstruct_ls-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -140,9 +140,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_sstruct_ls.so: ${OBJS}
++libHYPRE_sstruct_ls${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/sstruct_mv/Makefile hypre-2.10.1-dylib/src/sstruct_mv/Makefile
+--- hypre-2.10.1/src/sstruct_mv/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/sstruct_mv/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -59,7 +59,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_sstruct_mv-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_sstruct_mv-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -90,9 +90,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_sstruct_mv.so: ${OBJS}
++libHYPRE_sstruct_mv${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/struct_ls/Makefile hypre-2.10.1-dylib/src/struct_ls/Makefile
+--- hypre-2.10.1/src/struct_ls/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/struct_ls/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -100,7 +100,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_struct_ls-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_struct_ls-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -131,9 +131,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_struct_ls.so: ${OBJS}
++libHYPRE_struct_ls${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/struct_mv/Makefile hypre-2.10.1-dylib/src/struct_mv/Makefile
+--- hypre-2.10.1/src/struct_mv/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/struct_mv/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -66,7 +66,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_struct_mv-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_struct_mv-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -97,9 +97,9 @@
+ 	${AR} $@ ${OBJS}
+ 	${RANLIB} $@
+ 
+-libHYPRE_struct_mv.so: ${OBJS}
++libHYPRE_struct_mv${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}
+diff -aurw hypre-2.10.1/src/utilities/Makefile hypre-2.10.1-dylib/src/utilities/Makefile
+--- hypre-2.10.1/src/utilities/Makefile	2015-09-11 10:57:56.000000000 -0700
++++ hypre-2.10.1-dylib/src/utilities/Makefile	2016-04-01 15:35:20.000000000 -0700
+@@ -60,7 +60,7 @@
+ 
+ OBJS = ${FILES:.c=.o}
+ 
+-SONAME = libHYPRE_utilities-${HYPRE_RELEASE_VERSION}.so
++SONAME = libHYPRE_utilities-${HYPRE_RELEASE_VERSION}${HYPRE_LIB_SUFFIX}
+ 
+ ##################################################################
+ # Targets
+@@ -93,9 +93,9 @@
+ 	${AR} $@ *.o
+ 	${RANLIB} $@
+  
+-libHYPRE_utilities.so: ${OBJS}
++libHYPRE_utilities${HYPRE_LIB_SUFFIX}: ${OBJS}
+ 	@echo  "Building $@ ... "
+-	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME}
++	${BUILD_CC_SHARED} -o ${SONAME} ${OBJS} ${SHARED_SET_SONAME}${SONAME} ${SHARED_OPTIONS}
+ 	ln -s ${SONAME} $@
+ 
+ ${OBJS}: ${HEADERS}

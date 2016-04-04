@@ -12,14 +12,17 @@ class Hypre(Package):
     version('2.10.1', 'dc048c4cabb3cd549af72591474ad674')
     version('2.10.0b', '768be38793a35bb5d055905b271f5b8e')
 
-    # hypre does not know how to build shared libraries on Darwin
-    variant('shared', default=sys.platform!='darwin', description="Build shared library version (disables static library)")
+    variant('shared',   default=True,  description="Build shared library version (disables static library)")
+    variant('examples', default=False, description="Build Hypre example programs")
+
     # SuperluDist have conflicting headers with those in Hypre
     variant('internal-superlu', default=True, description="Use internal Superlu routines")
 
     depends_on("mpi")
     depends_on("blas")
     depends_on("lapack")
+
+    patch('hypre-macosx-dylibs.patch')
 
     def install(self, spec, prefix):
         blas_dir = spec['blas'].prefix
@@ -28,8 +31,9 @@ class Hypre(Package):
 
         os.environ['CC'] = os.path.join(mpi_dir, 'bin', 'mpicc')
         os.environ['CXX'] = os.path.join(mpi_dir, 'bin', 'mpicxx')
-        os.environ['F77'] = os.path.join(mpi_dir, 'bin', 'mpif77')
 
+        if self.compiler.f77:
+            os.environ['F77'] = os.path.join(mpi_dir, 'bin', 'mpif77')
 
         configure_args = [
                 "--prefix=%s" % prefix,
@@ -39,6 +43,12 @@ class Hypre(Package):
                 "--with-blas-lib-dirs=%s/lib" % blas_dir]
         if '+shared' in self.spec:
             configure_args.append("--enable-shared")
+
+        if '+examples' in self.spec:
+            configure_args.append("--with-examples")
+
+        if not self.compiler.f77 and not self.compiler.fc:
+            configure_args.append('--enable-fortran=no')
 
         if '~internal-superlu' in self.spec:
             configure_args.append("--without-superlu")
