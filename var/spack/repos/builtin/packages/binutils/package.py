@@ -57,10 +57,6 @@ class Binutils(AutotoolsPackage):
     def configure_args(self):
         spec = self.spec
 
-        #jgw#
-        import os
-        os.environ['LDFLAGS'] = "-L%s" % self.spec['gettext'].prefix.lib + " -lintl"
-        print "-L%s" % self.spec['gettext'].prefix.lib + " -lintl"
         configure_args = [
             '--with-system-zlib',
             '--disable-dependency-tracking',

@@ -44,7 +44,7 @@ class Racon(MakefilePackage):
     conflicts('%gcc@:4.8')
 
     parallel = False
-    
+
     def edit(self, spec, prefix):
         return
 
